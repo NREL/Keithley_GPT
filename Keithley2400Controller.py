@@ -78,6 +78,8 @@ class Keithley2400Controller:
         self.instrument.write(f":SOUR:{source_type.upper()}:STOP {stop_level}")
         self.instrument.write(f":SOUR:{source_type.upper()}:STEP {step_level}")
         self.instrument.write(f":SOUR:{source_type.upper()}:MODE SWE")
+
+        # Small correction for auto-range (human-added)
         if measure_range is not None:
             self.instrument.write(":SOUR:SWE:RANG FIX")
         else:
@@ -124,23 +126,3 @@ class Keithley2400Controller:
                 self.instrument.write(f":SENS:VOLT:NPLC {nplc}")
             else:
                 raise ValueError("Invalid measurement type. Choose 'CURR' or 'VOLT'.")
-
-"""# Example usage
-controller = Keithley2400Controller(timeout=10000)
-controller.connect()
-print(controller.identify())
-controller.select_panel('FRONT')
-controller.set_measurement_mode(2)"""
-
-"""sourced, measured = controller.iv_sweep(source_type='CURR', measure_type='VOLT', 
-                                        start_level=0.00001, stop_level=0.00005, step_level=0.000001, 
-                                        measure_compliance=0.5, source_range=0.0001, 
-                                        measure_range=2.0, nplc=1)"""
-
-"""sourced, measured = controller.iv_sweep(source_type='VOLT', measure_type='CURR', 
-                                        start_level=-1, stop_level=1, step_level=0.5, 
-                                        measure_compliance=0.5, source_range=None, 
-                                        measure_range=None, nplc=1)
-
-print("Voltage:", sourced)
-print("Current:", measured)"""
