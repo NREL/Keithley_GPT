@@ -13,7 +13,6 @@ voltage, current = controller.iv_sweep(source_type='VOLT', measure_type='CURR',
                                         start_level=-1, stop_level=1, step_level=0.5, 
                                         measure_compliance=0.5, source_range=None, 
                                         measure_range=None, nplc=1)
-
 # ===== Save IV data ===== #
 iv_folder = "./iv_files"
 file_path = 'iv_curve.txt'

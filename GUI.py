@@ -13,8 +13,7 @@ class Keithley2400GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Keithley 2400 Controller")
-        self.geometry("1280x1000")
-
+        self.geometry("680x1000")
         self.controller = Keithley2400Controller()
         
         # Create GUI components
