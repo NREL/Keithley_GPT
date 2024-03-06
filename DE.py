@@ -22,9 +22,33 @@ def append_numba_compat(original, values_to_append):
     
     return result
 
+def load_raw_data(iv_folder, iv_curve, vmin, vmax, output_folder=None, write_to_file=False, output_filename="cleaned_iv_data.txt"):
+    
+    """Cleans a txt file with voltage and current data."""
+    
+    data = np.loadtxt(iv_folder + "/" + iv_curve, usecols=(0, 1))
+
+    # Sort the data from reverse to forward bias (sort by voltage in ascending order)
+    truncated_data = data[(data[:, 0] >= vmin) & (data[:, 0] <= vmax)]
+    sorted_data_reverse_to_forward = truncated_data[truncated_data[:, 0].argsort()]
+    
+    # Separate the re-sorted data into voltage and current arrays
+    voltage = sorted_data_reverse_to_forward[:, 0]
+    current = sorted_data_reverse_to_forward[:, 1]
+    
+    if write_to_file and output_folder:
+        # Ensure the output folder exists
+        os.makedirs(output_folder, exist_ok=True)
+        output_file_path = os.path.join(output_folder, output_filename)
+        
+        # Write the cleaned data to a text file
+        np.savetxt(output_file_path, np.column_stack((voltage, current)), fmt='%e', header='Voltage Current')
+        print(f"Data written to {output_file_path}")
+
+    return voltage, current
 
 @jit(nopython=True)
-def differential_evolution(popsize, gmax, lower_bound, upper_bound):
+def differential_evolution(objective,popsize, gmax, lower_bound, upper_bound):
     # ---  Initialize arrays --- #
     lbound = append_numba_compat(lower_bound,np.array([0.1, 1e-3]))
     ubound = append_numba_compat(upper_bound,np.array([0.9, 1.0]))
@@ -92,62 +116,13 @@ def differential_evolution(popsize, gmax, lower_bound, upper_bound):
     return score[best_index], pop[best_index]
 
 @jit(nopython=True, parallel=True)
-def parallel(runs, popsize, gmax, lower_bound, upper_bound):
+def parallel(objective,runs, popsize, gmax, lower_bound, upper_bound):
     score_list = np.zeros((runs, 1))
-    solution_list = np.zeros((runs, len(lbound) + 2))
+    solution_list = np.zeros((runs, len(lower_bound) + 2))
     for i in prange(runs):
         seed = np.random.uniform(0,1e4)
         np.random.seed(round(seed))
-        score, solution = differential_evolution(popsize, gmax, lower_bound, upper_bound)
+        score, solution = differential_evolution(objective,popsize, gmax, lower_bound, upper_bound)
         score_list[i] = score
         solution_list[i, :] = solution
     return score_list, solution_list
-
-def load_raw_data(iv_folder, iv_curve, vmin, vmax, output_folder=None, write_to_file=False, output_filename="cleaned_iv_data.txt"):
-    
-    """Cleans a txt file with voltage and current data."""
-    
-    data = np.loadtxt(iv_folder + "/" + iv_curve, usecols=(0, 1))
-
-    # Sort the data from reverse to forward bias (sort by voltage in ascending order)
-    truncated_data = data[(data[:, 0] >= vmin) & (data[:, 0] <= vmax)]
-    sorted_data_reverse_to_forward = truncated_data[truncated_data[:, 0].argsort()]
-    
-    # Separate the re-sorted data into voltage and current arrays
-    voltage = sorted_data_reverse_to_forward[:, 0]
-    current = sorted_data_reverse_to_forward[:, 1]
-    
-    if write_to_file and output_folder:
-        # Ensure the output folder exists
-        os.makedirs(output_folder, exist_ok=True)
-        output_file_path = os.path.join(output_folder, output_filename)
-        
-        # Write the cleaned data to a text file
-        np.savetxt(output_file_path, np.column_stack((voltage, current)), fmt='%e', header='Voltage Current')
-        print(f"Data written to {output_file_path}")
-
-    return voltage, current
-
-# @jit(nopython=True)
-# def objective(indv):
-#     return np.power((indv[0]-2),2) + np.power((indv[1]-2),2)
-
-voltage, current = load_raw_data("./", "test.txt", vmin=-2, vmax=2)
-
-@jit(nopython=True)
-def objective(indv):
-    charge = 1.60e-19
-    boltz = 1.38e-23
-    vt = boltz * (25.0 + 273.15) / charge
-    sim = indv[0] * (np.exp((voltage - current * indv[2]) / (indv[1] * vt)) - 1) + (voltage - current * indv[2]) / indv[3]
-    normalized_error = ((current - sim) / (current)) ** 2
-    return np.sqrt(np.sum(normalized_error) / len(voltage))
-
-if __name__ == '__main__':
-
-    lbound = np.array([1e-15, 1,  1e-6, 1e-1])
-    ubound = np.array([1e-3,  10, 1e3,  1e9])
-
-    score_list, solution_list = parallel(runs=2, popsize=10, gmax=1000, 
-                                         lower_bound=lbound, upper_bound=ubound)
-    print(solution_list)
