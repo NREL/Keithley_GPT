@@ -9,9 +9,25 @@ from datetime import datetime
 import sys
 
 @jit(nopython=True)
-def differential_evolution(popsize, gmax, lbound, ubound):
+def append_numba_compat(original, values_to_append):
+    # Determine the size of the combined array
+    total_length = original.size + values_to_append.size
+    
+    # Pre-allocate the combined array
+    result = np.empty(total_length, dtype=original.dtype)
+    
+    # Copy the original and the values to append into the new array
+    result[:original.size] = original
+    result[original.size:total_length] = values_to_append
+    
+    return result
 
+
+@jit(nopython=True)
+def differential_evolution(popsize, gmax, lower_bound, upper_bound):
     # ---  Initialize arrays --- #
+    lbound = append_numba_compat(lower_bound,np.array([0.1, 1e-3]))
+    ubound = append_numba_compat(upper_bound,np.array([0.9, 1.0]))
     dimension = len(lbound)
     pop = np.zeros((popsize, dimension))
     for j in range(dimension):
@@ -76,13 +92,13 @@ def differential_evolution(popsize, gmax, lbound, ubound):
     return score[best_index], pop[best_index]
 
 @jit(nopython=True, parallel=True)
-def parallel(runs, popsize, gmax, lbound, ubound):
+def parallel(runs, popsize, gmax, lower_bound, upper_bound):
     score_list = np.zeros((runs, 1))
-    solution_list = np.zeros((runs, len(lbound)))
+    solution_list = np.zeros((runs, len(lbound) + 2))
     for i in prange(runs):
         seed = np.random.uniform(0,1e4)
         np.random.seed(round(seed))
-        score, solution = differential_evolution(popsize, gmax, lbound, ubound)
+        score, solution = differential_evolution(popsize, gmax, lower_bound, upper_bound)
         score_list[i] = score
         solution_list[i, :] = solution
     return score_list, solution_list
@@ -129,8 +145,9 @@ def objective(indv):
 
 if __name__ == '__main__':
 
-    lbound = np.array([1e-15, 1,  1e-6, 1e-1,0.1, 1e-3])
-    ubound = np.array([1e-3,  10, 1e3,  1e9, 0.9, 1.0])
+    lbound = np.array([1e-15, 1,  1e-6, 1e-1])
+    ubound = np.array([1e-3,  10, 1e3,  1e9])
 
-    score_list, solution_list = parallel(runs=2, popsize=100, gmax=1000, lbound=lbound, ubound=ubound)
+    score_list, solution_list = parallel(runs=2, popsize=10, gmax=1000, 
+                                         lower_bound=lbound, upper_bound=ubound)
     print(solution_list)
