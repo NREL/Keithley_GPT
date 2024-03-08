@@ -22,11 +22,11 @@ def append_numba_compat(original, values_to_append):
     
     return result
 
-def load_raw_data(iv_folder, iv_curve, vmin, vmax, output_folder=None, write_to_file=False, output_filename="cleaned_iv_data.txt"):
+def load_raw_data(iv_curve, vmin, vmax, output_folder=None, write_to_file=False, output_filename="cleaned_iv_data.txt"):
     
     """Cleans a txt file with voltage and current data."""
     
-    data = np.loadtxt(iv_folder + "/" + iv_curve, usecols=(0, 1))
+    data = np.loadtxt(iv_curve, usecols=(0, 1))
 
     # Sort the data from reverse to forward bias (sort by voltage in ascending order)
     truncated_data = data[(data[:, 0] >= vmin) & (data[:, 0] <= vmax)]
