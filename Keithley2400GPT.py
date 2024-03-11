@@ -40,7 +40,7 @@ class Keithley2400Controller:
         self.instrument.write(":SENS:FUNC:CONC OFF")
 
         # Calculate number of points for the sweep
-        num_points = int((stop_level - start_level) / step_level) + 1
+        num_points = int(abs((stop_level - start_level)) / abs(step_level)) + 1
 
         # Set Over Voltage Protection (always present)
         self.instrument.write(f":SOUR:VOLT:PROT {ovp}")
