@@ -8,7 +8,7 @@ from os.path import isfile, join
 from datetime import datetime
 import sys
 
-@jit(nopython=True)
+@jit(nopython=True, fastmath=True)
 def append_numba_compat(original, values_to_append):
     # Determine the size of the combined array
     total_length = original.size + values_to_append.size
@@ -22,7 +22,7 @@ def append_numba_compat(original, values_to_append):
     
     return result
 
-def load_raw_data(iv_curve, vmin, vmax, output_folder=None, write_to_file=False, output_filename="cleaned_iv_data.txt"):
+def load_raw_data(iv_curve, vmin, vmax, output_folder=None, write_to_file=False, output_filename="cleaned_data.txt"):
     
     """Cleans a txt file with voltage and current data."""
     
@@ -47,7 +47,7 @@ def load_raw_data(iv_curve, vmin, vmax, output_folder=None, write_to_file=False,
 
     return voltage, current
 
-@jit(nopython=True)
+@jit(nopython=True, fastmath=True)
 def differential_evolution(objective,popsize, gmax, lower_bound, upper_bound):
     # ---  Initialize arrays --- #
     lbound = append_numba_compat(lower_bound,np.array([0.1, 1e-3]))
@@ -61,7 +61,7 @@ def differential_evolution(objective,popsize, gmax, lower_bound, upper_bound):
             pop[:, j] = 10 ** random.uniform(log10(lbound[j]), log10(ubound[j]), popsize)
     score = np.zeros((popsize, 1))
     donor = np.zeros((popsize, dimension - 2))
-    trial = np.zeros((popsize, dimension - 2))
+    trial = np.zeros_like(donor)
 
     # --- Initial best individual --- #
     for i in range(popsize):
@@ -101,7 +101,7 @@ def differential_evolution(objective,popsize, gmax, lower_bound, upper_bound):
 
             # --- Greedy Selection --- #
             if objective(trial[i]) < objective(pop[i]):
-                pop[i, :-2] = trial[i, :]
+                pop[i, :-2] = trial[i]
 
             # --- Control parameters update --- #
             if random.rand() < 0.1:
@@ -115,7 +115,7 @@ def differential_evolution(objective,popsize, gmax, lower_bound, upper_bound):
         best_index = np.argmin(score)
     return score[best_index], pop[best_index]
 
-@jit(nopython=True, parallel=True)
+@jit(nopython=True, parallel=True, fastmath=True)
 def parallel(objective,runs, popsize, gmax, lower_bound, upper_bound):
     score_list = np.zeros((runs, 1))
     solution_list = np.zeros((runs, len(lower_bound) + 2))
