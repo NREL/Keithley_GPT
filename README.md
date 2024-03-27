@@ -1,4 +1,4 @@
-# Keithley_GPT: A Python Module for Keithley 2400 Series SMUs Control and Analysis
+# Keithley_GPT: An open-source library for Keithley 2400 Series SMUs Control and Analysis
 
 Keithley_GPT is a comprehensive Python module accompanied by a user-friendly GUI, designed for the control of Keithley 2400 series Source Measure Units (SMUs). It includes a high-performance implementation compatible with Numba for the self-adaptive differential evolution algorithm, enhancing the analysis of IV (current-voltage) data. This tool is crafted to support researchers and engineers in electrical measurement and analysis tasks with ease and efficiency.
 
