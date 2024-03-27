@@ -2,7 +2,7 @@
 Python module and gui for controlling Keithley 2400 series SMUs
 
 ## DE
-Numba-compatible implementation of the self-adaptive differential evolution algorithm
+Numba-compatible implementation of the self-adaptive differential evolution algorithm, introduced by Brest, Janez, et al. in "Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems." IEEE transactions on evolutionary computation 10.6 (2006): 646-657
 
 ## GUI
 Graphical User interface (ChatGPT-crafted)
