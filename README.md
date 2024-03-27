@@ -19,7 +19,7 @@ Keithley_GPT is a Python library accompanied by a user-friendly GUI, designed fo
 ### SDM_Extraction
 - **Script**: Facilitates the extraction of single diode parameters from IV data, streamlining the analysis process.
 
-### Fittings
+### Results_analysis
 - **Jupyter Notebook**: Employed for generating figures based on the data collected, aiding in the visualization and interpretation of results.
 
 ### LambertW Approximation
