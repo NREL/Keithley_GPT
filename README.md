@@ -1,23 +1,26 @@
-# Keithley_GPT
-Python module and gui for controlling Keithley 2400 series SMUs
+# Keithley_GPT: An open-source library for Keithley 2400 Series SMUs Control and Analysis
 
-## DE
-Numba-compatible implementation of the self-adaptive differential evolution algorithm
+Keithley_GPT is a Python library accompanied by a user-friendly GUI, designed for the control of Keithley 2400 series Source Measure Units (SMUs). It includes a Numba-compatible implementation of the self-adaptive differential evolution algorithm, enhancing the analysis of IV (current-voltage) data. This tool is crafted to support researchers and engineers in electrical measurement and analysis tasks with ease and efficiency.
 
-## GUI
-Graphical User interface (ChatGPT-crafted)
+## Features
 
-## Keithley2400GPT
-Control class for Keithley 2400 SMUs (ChatGPT-crafted)
+### DE (Differential Evolution)
+- **Numba-Compatible Implementation**: Utilizes the self-adaptive differential evolution algorithm for optimization tasks. This implementation is based on the method introduced by Brest, Janez, et al., in their study "Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems," published in IEEE Transactions on Evolutionary Computation, Vol. 10, No. 6, 2006, pp. 646-657.
 
-## IV_characterization
-Example code to acquire current-voltage data with the Keithley2400GPT control class.
+### GUI (Graphical User Interface)
+- **Crafted by ChatGPT**, it provides a straightforward and intuitive interface for interacting with Keithley 2400 series SMUs, making it accessible to users of all skill levels.
 
-## SDM_extraction
-Script to extract single diode parameters from IV data.
+### Keithley2400GPT (Control Class)
+- **Crafted by ChatGPT**, it is a dedicated control class for managing Keithley 2400 SMUs, designed to simplify the process of setting up and conducting measurements.
 
-## Fittings
-Jupyter notebook used to generate figures
+### IV_Characterization
+- **Example Code**: Demonstrates how to acquire current-voltage data utilizing the Keithley2400GPT control class, serving as a practical guide for users.
 
-## LambertW approximation
-Evaluates the main branch of the Lambert W function approximated via Newton-Raphson method and compares with the results from the scipy implementation.
+### SDM_Extraction
+- **Script**: Facilitates the extraction of single diode parameters from IV data, streamlining the analysis process.
+
+### Results_analysis
+- **Jupyter Notebook**: Employed for generating figures based on the data collected, aiding in the visualization and interpretation of results.
+
+### LambertW Approximation
+- **Method Evaluation**: Offers an evaluation of the main branch of the Lambert W function, approximated via the Newton-Raphson method. This evaluation is compared against results from the SciPy implementation, providing a reliability benchmark.
