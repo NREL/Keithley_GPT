@@ -23,4 +23,4 @@ Keithley_GPT is a Python library accompanied by a user-friendly GUI, designed fo
 - **Jupyter Notebook**: Employed for generating figures based on the data collected, aiding in the visualization and interpretation of results.
 
 ### LambertW Approximation
-- **Method Evaluation**: Offers an evaluation of the main branch of the Lambert W function, approximated via the Newton-Raphson method. This evaluation is compared against results from the SciPy implementation, providing a reliability benchmark.
+- **Method Evaluation**: Evaluates the main branch of the Lambert W function, approximated via the Newton-Raphson method, which is then compared against results from the SciPy implementation.
