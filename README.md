@@ -24,19 +24,3 @@ Keithley_GPT is a comprehensive Python module accompanied by a user-friendly GUI
 
 ### LambertW Approximation
 - **Method Evaluation**: Offers an evaluation of the main branch of the Lambert W function, approximated via the Newton-Raphson method. This evaluation is compared against results from the SciPy implementation, providing a reliability benchmark.
-
-## Getting Started
-
-(Instructions on how to install, configure, and use the Keithley_GPT module and GUI, including any prerequisites or dependencies, would be placed here.)
-
-## Contributing
-
-(Information on how to contribute to the project, report issues, and submit pull requests, ensuring the project's continual improvement and adaptation to user needs.)
-
-## License
-
-(Details about the project's licensing, indicating how it can be used and distributed.)
-
-## Contact
-
-(Information on how to reach the project maintainers or support team, including email addresses, social media profiles, or a project website.)
