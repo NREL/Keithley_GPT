@@ -19,14 +19,6 @@ def clean_raw_data(iv_folder, iv_curve, vmin, vmax, output_folder=None, write_to
     
     data = np.loadtxt(iv_folder + "/" + iv_curve, usecols=(0, 1))
     
-    # Find the indices of entries where voltage is 0
-    zero_voltage_indices = np.where(data[:, 0] == 0)[0]
-
-    # If there are duplicates at voltage 0, remove one of each pair
-    if len(zero_voltage_indices) > 1:
-        # Remove the first duplicate (assuming they are consecutive)
-        data = np.delete(data, zero_voltage_indices[0], axis=0)
-
     # Sort the data from reverse to forward bias (sort by voltage in ascending order)
     truncated_data = data[(data[:, 0] >= vmin) & (data[:, 0] <= vmax)]
     sorted_data_reverse_to_forward = truncated_data[truncated_data[:, 0].argsort()]
@@ -105,7 +97,7 @@ def create_objective_function(voltage, current, temperature_celsius): # Whatever
 
 temperature_list = [400]
 for temp in temperature_list:
-    iv_folder = "./Data_gas/"+str(temp)+"C/"
+    iv_folder = "./Data_gas"
     temperature_celsius = temp
     results_folder = iv_folder + "/Results"
     lbound = np.array([1e-15,   1,   1e-6, 1e-6, -1]) # lower bound for indv[0], indv[1], ...
