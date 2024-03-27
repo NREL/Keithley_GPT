@@ -14,7 +14,7 @@ Keithley_GPT is a Python library accompanied by a user-friendly GUI, designed fo
 - **Crafted by ChatGPT**, it is a dedicated control class for managing Keithley 2400 SMUs, designed to simplify the process of setting up and conducting measurements.
 
 ### IV_Characterization
-- **Example Code**: Demonstrates how to acquire current-voltage data utilizing the Keithley2400GPT control class, serving as a practical guide for users.
+- **Example Code**: Demonstrates how to acquire current-voltage data utilizing the Keithley2400GPT control class.
 
 ### SDM_Extraction
 - **Script**: Facilitates the extraction of single diode parameters from IV data, streamlining the analysis process.
