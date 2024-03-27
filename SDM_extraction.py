@@ -103,9 +103,9 @@ def create_objective_function(voltage, current, temperature_celsius): # Whatever
         return np.sqrt(np.sum(normalized_error) / len(voltage))
     return objective # Always return objective here, with no arguments.
 
-temperature_list = [200,300,350,450,500,550]
+temperature_list = [400]
 for temp in temperature_list:
-    iv_folder = "./D2/"+str(temp)+"C/"
+    iv_folder = "./Data_gas/"+str(temp)+"C/"
     temperature_celsius = temp
     results_folder = iv_folder + "/Results"
     lbound = np.array([1e-15,   1,   1e-6, 1e-6, -1]) # lower bound for indv[0], indv[1], ...
@@ -114,4 +114,4 @@ for temp in temperature_list:
                         lbound, ubound, 
                         vmin=-10, vmax=5, runs=10, popsize=100, gmax=1e4)
 print("Done!")
- 
+    
