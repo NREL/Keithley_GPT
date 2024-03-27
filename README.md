@@ -8,10 +8,10 @@ Keithley_GPT is a Python library accompanied by a user-friendly GUI, designed fo
 - **Numba-Compatible Implementation**: Utilizes the self-adaptive differential evolution algorithm for optimization tasks. This implementation is based on the method introduced by Brest, Janez, et al., in their study "Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems," published in IEEE Transactions on Evolutionary Computation, Vol. 10, No. 6, 2006, pp. 646-657.
 
 ### GUI (Graphical User Interface)
-- **ChatGPT-Crafted**: Provides a straightforward and intuitive interface for interacting with Keithley 2400 series SMUs, making it accessible to users of all skill levels.
+- Crafted by ChatGPT, it provides a straightforward and intuitive interface for interacting with Keithley 2400 series SMUs, making it accessible to users of all skill levels.
 
 ### Keithley2400GPT (Control Class)
-- **ChatGPT-Crafted**: A dedicated control class for managing Keithley 2400 SMUs, designed to simplify the process of setting up and conducting measurements.
+- Crafted by ChatGPT, it is a dedicated control class for managing Keithley 2400 SMUs, designed to simplify the process of setting up and conducting measurements.
 
 ### IV_Characterization
 - **Example Code**: Demonstrates how to acquire current-voltage data utilizing the Keithley2400GPT control class, serving as a practical guide for users.
