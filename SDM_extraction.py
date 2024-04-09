@@ -44,7 +44,7 @@ def extract_parameters(iv_folder, results_folder, temperature_celsius, lbound, u
     iv_curves = [f for f in listdir(iv_folder) if isfile(join(iv_folder, f))]
     total_files = len(iv_curves)
 
-    for i in range(total_files):  
+    for i in range(1):  
         voltage, current = clean_raw_data(iv_folder, iv_curves[i], vmin, vmax)
         custom_objective = create_objective_function(voltage, current, temperature_celsius)
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -95,15 +95,17 @@ def create_objective_function(voltage, current, temperature_celsius): # Whatever
         return np.sqrt(np.sum(normalized_error) / len(voltage))
     return objective # Always return objective here, with no arguments.
 
-temperature_list = [400]
+temperature_list = [500]
+
 for temp in temperature_list:
-    iv_folder = "./Data_gas"
+    iv_folder = "./D2/" + str(temp) + "C/"
     temperature_celsius = temp
-    results_folder = iv_folder + "/Results"
+    results_folder = iv_folder + "/Timed_execution"
     lbound = np.array([1e-15,   1,   1e-6, 1e-6, -1]) # lower bound for indv[0], indv[1], ...
     ubound = np.array([1,      1e2,   1e3,  1e9,   1])  # upper bound for indv[0], indv[1], ...
+
     extract_parameters(iv_folder, results_folder, temperature_celsius,
-                        lbound, ubound, 
-                        vmin=-10, vmax=5, runs=10, popsize=100, gmax=1e4)
-print("Done!")
-    
+                    lbound, ubound, 
+                    vmin=-10, vmax=5, runs=1, popsize=100, gmax=1e4)
+     
+print("Done!")    
