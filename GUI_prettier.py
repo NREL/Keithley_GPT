@@ -13,16 +13,24 @@ class Keithley2400GUI(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("Keithley 2400 Controller")
-        self.geometry("680x1000")
+        self.geometry("1000x680")
         self.controller = Keithley2400Controller()
         
         # Create GUI components
         self.create_widgets()
 
     def create_widgets(self):
+        # Main frame
+        main_frame = ttk.Frame(self)
+        main_frame.pack(fill='both', expand=True)
+
+        # Left frame for connection, setup, and configuration
+        left_frame = ttk.Frame(main_frame)
+        left_frame.pack(side='left', fill='both', padx=10, pady=10, expand=True)
+
         # Connection frame
-        connection_frame = ttk.Frame(self)
-        connection_frame.pack(fill='x', padx=10, pady=5)
+        connection_frame = ttk.LabelFrame(left_frame, text="Connection")
+        connection_frame.pack(fill='x', padx=5, pady=5, expand=True)
 
         # Initialization of variables before they are used
         self.source_type_var = tk.StringVar(value='VOLT')
@@ -37,17 +45,17 @@ class Keithley2400GUI(tk.Tk):
         self.source_delay_var = tk.DoubleVar(value=0.1)
         self.auto_range_var = tk.BooleanVar(value=True)        
 
-        ttk.Label(connection_frame, text="Resource Name:").pack(side='left')
+        ttk.Label(connection_frame, text="Resource Name:").grid(row=0, column=0, padx=5, pady=5, sticky='w')
         self.resource_name_var = tk.StringVar(value='ASRL5::INSTR')
         resource_name_entry = ttk.Entry(connection_frame, textvariable=self.resource_name_var)
-        resource_name_entry.pack(side='left', padx=5)
+        resource_name_entry.grid(row=0, column=1, padx=5, pady=5)
         
         connect_button = ttk.Button(connection_frame, text="Connect", command=self.connect)
-        connect_button.pack(side='left', padx=5)
+        connect_button.grid(row=1, columnspan=2, padx=5, pady=5, sticky='ew')
 
         # Panel selection
-        panel_frame = ttk.LabelFrame(self, text="Select Panel")
-        panel_frame.pack(fill='x', padx=10, pady=5, expand=True)
+        panel_frame = ttk.LabelFrame(left_frame, text="Select Panel")
+        panel_frame.pack(fill='x', padx=5, pady=5, expand=True)
         
         self.panel_var = tk.StringVar(value='FRONT')
         front_radio = ttk.Radiobutton(panel_frame, text="Front", variable=self.panel_var, value='FRONT')
@@ -56,11 +64,11 @@ class Keithley2400GUI(tk.Tk):
         rear_radio.pack(side='left', padx=5)
         
         panel_select_button = ttk.Button(panel_frame, text="Select", command=self.select_panel)
-        panel_select_button.pack(side='left', padx=5)
+        panel_select_button.pack(side='right', padx=5)
 
         # Measurement mode
-        mode_frame = ttk.LabelFrame(self, text="Set Measurement Mode")
-        mode_frame.pack(fill='x', padx=10, pady=5, expand=True)
+        mode_frame = ttk.LabelFrame(left_frame, text="Set Measurement Mode")
+        mode_frame.pack(fill='x', padx=5, pady=5, expand=True)
 
         self.mode_var = tk.IntVar(value=2)
         two_wire_radio = ttk.Radiobutton(mode_frame, text="2-wire", variable=self.mode_var, value=2)
@@ -69,42 +77,37 @@ class Keithley2400GUI(tk.Tk):
         four_wire_radio.pack(side='left', padx=5)
 
         mode_select_button = ttk.Button(mode_frame, text="Set Mode", command=self.set_measurement_mode)
-        mode_select_button.pack(side='left', padx=5)
+        mode_select_button.pack(side='right', padx=5)
 
         # IV Sweep settings (expanded)
-        sweep_frame = ttk.LabelFrame(self, text="IV Sweep Settings")
-        sweep_frame.pack(fill='x', padx=10, pady=5, expand=True)
+        sweep_frame = ttk.LabelFrame(left_frame, text="IV Sweep Settings")
+        sweep_frame.pack(fill='x', padx=5, pady=5, expand=True)
 
         # Source and Measure Type
         ttk.Label(sweep_frame, text="Source Type:").grid(row=0, column=0, padx=5, pady=5, sticky='w')
-        self.source_type_var = tk.StringVar(value='VOLT')
         ttk.Combobox(sweep_frame, textvariable=self.source_type_var, values=('VOLT', 'CURR')).grid(row=0, column=1, padx=5, pady=5, sticky='ew')
 
         ttk.Label(sweep_frame, text="Measure Type:").grid(row=1, column=0, padx=5, pady=5, sticky='w')
-        self.measure_type_var = tk.StringVar(value='CURR')
         ttk.Combobox(sweep_frame, textvariable=self.measure_type_var, values=('VOLT', 'CURR')).grid(row=1, column=1, padx=5, pady=5, sticky='ew')
 
         # Start, Stop, Step Levels
         ttk.Label(sweep_frame, text="Start Level:").grid(row=2, column=0, padx=5, pady=5, sticky='w')
-        self.start_level_var = tk.DoubleVar(value=0)
         ttk.Entry(sweep_frame, textvariable=self.start_level_var).grid(row=2, column=1, padx=5, pady=5, sticky='ew')
 
         ttk.Label(sweep_frame, text="Stop Level:").grid(row=3, column=0, padx=5, pady=5, sticky='w')
-        self.stop_level_var = tk.DoubleVar(value=1)
         ttk.Entry(sweep_frame, textvariable=self.stop_level_var).grid(row=3, column=1, padx=5, pady=5, sticky='ew')
 
         ttk.Label(sweep_frame, text="Step Level:").grid(row=4, column=0, padx=5, pady=5, sticky='w')
-        self.step_level_var = tk.DoubleVar(value=0.1)
         ttk.Entry(sweep_frame, textvariable=self.step_level_var).grid(row=4, column=1, padx=5, pady=5, sticky='ew')
 
         # Compliance, Range, NPLC, Delay
         ttk.Label(sweep_frame, text="Compliance:").grid(row=5, column=0, padx=5, pady=5, sticky='w')
-        self.compliance_var = tk.DoubleVar(value=0.1)
         ttk.Entry(sweep_frame, textvariable=self.compliance_var).grid(row=5, column=1, padx=5, pady=5, sticky='ew')
 
         # Auto Range toggle and related entries
-        self.auto_range_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(sweep_frame, text="Auto Range", variable=self.auto_range_var).grid(row=6, columnspan=2, padx=5, pady=5, sticky='w')
+        self.auto_range_var.trace_add("write", self.toggle_range_state)
+        auto_range_checkbutton = ttk.Checkbutton(sweep_frame, text="Auto Range", variable=self.auto_range_var)
+        auto_range_checkbutton.grid(row=6, columnspan=2, padx=5, pady=5, sticky='w')
 
         ttk.Label(sweep_frame, text="Source Range:").grid(row=7, column=0, padx=5, pady=5, sticky='w')
         self.source_range_entry = ttk.Entry(sweep_frame, textvariable=self.source_range_var, state='disabled')
@@ -115,34 +118,33 @@ class Keithley2400GUI(tk.Tk):
         self.measure_range_entry.grid(row=8, column=1, padx=5, pady=5, sticky='ew')
 
         ttk.Label(sweep_frame, text="NPLC:").grid(row=9, column=0, padx=5, pady=5, sticky='w')
-        self.nplc_var = tk.DoubleVar(value=1)
         ttk.Entry(sweep_frame, textvariable=self.nplc_var).grid(row=9, column=1, padx=5, pady=5, sticky='ew')
 
         ttk.Label(sweep_frame, text="Source Delay:").grid(row=10, column=0, padx=5, pady=5, sticky='w')
-        self.source_delay_var = tk.DoubleVar(value=0.1)
         ttk.Entry(sweep_frame, textvariable=self.source_delay_var).grid(row=10, column=1, padx=5, pady=5, sticky='ew')
-
-        # Auto Range toggle
-        self.auto_range_var.trace_add("write", self.toggle_range_state)
 
         # Perform IV Sweep Button
         ttk.Button(sweep_frame, text="Perform IV Sweep", command=self.perform_iv_sweep).grid(row=11, columnspan=2, padx=5, pady=5, sticky='ew')
 
+        # Right frame for plotting
+        right_frame = ttk.Frame(main_frame)
+        right_frame.pack(side='right', fill='both', padx=10, pady=10, expand=True)
+
         # Plot area
-        self.fig = Figure(figsize=(5, 4), dpi=100)
+        self.fig = Figure(figsize=(8, 6), dpi=100)
         self.plot = self.fig.add_subplot(111)
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)  
+        self.canvas = FigureCanvasTkAgg(self.fig, master=right_frame)  
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
-        # Save data button
-        save_data_button = ttk.Button(self, text="Save Data", command=self.save_data)
-        save_data_button.pack(side='bottom', padx=5, pady=5)
-
         # Y-scale toggle
         self.log_scale_var = tk.BooleanVar(value=False)  # False = Linear, True = Log
-        log_scale_checkbutton = ttk.Checkbutton(self, text="Log Scale Y-axis", variable=self.log_scale_var, command=self.toggle_y_scale)
-        log_scale_checkbutton.pack()
+        log_scale_checkbutton = ttk.Checkbutton(right_frame, text="Log Scale Y-axis", variable=self.log_scale_var, command=self.toggle_y_scale)
+        log_scale_checkbutton.pack(side='top', padx=5, pady=5)
+
+        # Save data button
+        save_data_button = ttk.Button(right_frame, text="Save Data", command=self.save_data)
+        save_data_button.pack(side='top', padx=5, pady=5)
 
     def toggle_y_scale(self):
         # Check the current state of the log_scale_var to determine the scale
