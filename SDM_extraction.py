@@ -44,7 +44,7 @@ def extract_parameters(iv_folder, results_folder, temperature_celsius, lbound, u
     iv_curves = [f for f in listdir(iv_folder) if isfile(join(iv_folder, f))]
     total_files = len(iv_curves)
 
-    for i in range(1):  
+    for i in range(total_files):  
         voltage, current = clean_raw_data(iv_folder, iv_curves[i], vmin, vmax)
         custom_objective = create_objective_function(voltage, current, temperature_celsius)
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

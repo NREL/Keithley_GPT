@@ -182,10 +182,9 @@ class KeithleyGUI:
         self.plot.set_title('IV Sweep Results')
 
         # Set formatter for automatic scientific notation
-        self.plot.xaxis.set_major_formatter(ticker.ScalarFormatter(useMathText=True))
-        self.plot.yaxis.set_major_formatter(ticker.ScalarFormatter(useMathText=True))
-        self.plot.ticklabel_format(style='sci', axis='both', scilimits=(-2,2), useOffset=False)
-
+        # self.plot.xaxis.set_major_formatter(ticker.ScalarFormatter(useMathText=True))
+        # self.plot.ticklabel_format(style='sci', axis='x', scilimits=(0,0), useOffset=False)
+        plt.setp(self.plot.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
         # Update the plot
         self.canvas.draw()
 

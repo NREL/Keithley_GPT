@@ -14,7 +14,7 @@ def append_numba_compat(original, values_to_append):
     total_length = original.size + values_to_append.size
     
     # Pre-allocate the combined array
-    result = np.empty(total_length, dtype=original.dtype)
+    result = np.empty(total_length, dtype=np.float64)
     
     # Copy the original and the values to append into the new array
     result[:original.size] = original
