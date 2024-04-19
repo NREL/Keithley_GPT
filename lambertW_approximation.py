@@ -22,9 +22,9 @@ w_scipy = lambertw(z_values).real
 errors = np.abs(w_custom - w_scipy)
 
 # Plot the results and the error
-#plt.figure(figsize=(15, 5))
+plt.figure(figsize=(15, 5))
 
-#plt.subplot(1, 2, 1)
+plt.subplot(1, 2, 1)
 plt.plot(z_values, w_custom, label='Custom Newton-Raphson', color='red')
 plt.plot(z_values, w_scipy, label='SciPy LambertW', linestyle='--', color='blue')
 plt.title('Comparison of Lambert W Implementations')
@@ -34,13 +34,13 @@ plt.xscale('log')
 plt.yscale('log')
 plt.legend(loc='lower right', frameon=False)
 
-# plt.subplot(1, 2, 2)
-# plt.plot(z_values, errors, label='Absolute Error', color='green')
-# plt.title('Absolute Error Between Implementations')
-# plt.xlabel('z')
-# plt.ylabel('Error')
-# plt.yscale('log')
-# plt.legend()
+plt.subplot(1, 2, 2)
+plt.plot(z_values, errors, label='Absolute Error', color='green')
+plt.title('Absolute Error Between Implementations')
+plt.xlabel('z')
+plt.ylabel('Error')
+plt.yscale('log')
+plt.legend()
 
 plt.tight_layout()
 plt.show()

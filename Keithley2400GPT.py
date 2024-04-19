@@ -95,7 +95,7 @@ class Keithley2400Controller:
         self.instrument.write(":OUTP ON")
         raw_data = self.instrument.query_ascii_values(":READ?")
 
-        # Disable output after measurement
+        # Disable output after measurement  
         self.instrument.write(":OUTP OFF")
 
         voltage = [raw_data[i] for i in range(0, len(raw_data), 5)] # Manual correction: voltage instead of sourced values
