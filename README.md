@@ -1,6 +1,6 @@
 # Keithley_GPT: An open-source library for Keithley 2400 Series SMUs Control and Analysis
 
-Keithley_GPT is a Python library accompanied by a user-friendly GUI, designed for the control of Keithley 2400 series Source Measure Units (SMUs).
+Keithley_GPT is a Python library developed by ChatGPT-4 accompanied by a user-friendly GUI, designed for the control of Keithley 2400 series Source Measure Units (SMUs).
 
 ## Features
 
