@@ -13,6 +13,9 @@ class KeithleyGUI:
         self.master = master
         master.title('Keithley 2400 Controller')
 
+        self.is_connected = False  # Track connection status
+        self.data_collected = False  # Track if data has been collected        
+
         # Initialize the instrument controller
         self.instrument = None  # Initialize without creating an object yet
 
@@ -33,12 +36,17 @@ class KeithleyGUI:
         # Configuration Frame (Panel and Measurement Mode)
         self.frame_config = ttk.LabelFrame(master, text="Instrument Configuration", padding=(10, 10))
         self.frame_config.grid(row=2, column=0, padx=10, pady=5, sticky='ew')
-        self.panel_var = tk.BooleanVar(value=True)  # True for FRONT, False for REAR
-        ttk.Radiobutton(self.frame_config, text='Front Panel', variable=self.panel_var, value=True, command=self.change_panel).grid(row=0, column=0, padx=5, pady=5)
-        ttk.Radiobutton(self.frame_config, text='Rear Panel', variable=self.panel_var, value=False, command=self.change_panel).grid(row=0, column=1, padx=5, pady=5)
-        self.mode_var = tk.BooleanVar(value=False)  # False for 2-wire, True for 4-wire
-        ttk.Radiobutton(self.frame_config, text='2-wire Mode', variable=self.mode_var, value=False, command=self.change_mode).grid(row=1, column=0, padx=5, pady=5)
-        ttk.Radiobutton(self.frame_config, text='4-wire Mode', variable=self.mode_var, value=True, command=self.change_mode).grid(row=1, column=1, padx=5, pady=5)
+        self.panel_var = tk.BooleanVar(value=True)
+        self.front_panel_radio = ttk.Radiobutton(self.frame_config, text='Front Panel', variable=self.panel_var, value=True, state='disabled', command=self.change_panel)
+        self.front_panel_radio.grid(row=0, column=0, padx=5, pady=5)
+        self.rear_panel_radio = ttk.Radiobutton(self.frame_config, text='Rear Panel', variable=self.panel_var, value=False, state='disabled', command=self.change_panel)
+        self.rear_panel_radio.grid(row=0, column=1, padx=5, pady=5)
+
+        self.mode_var = tk.BooleanVar(value=False)
+        self.two_wire_radio = ttk.Radiobutton(self.frame_config, text='2-wire Mode', variable=self.mode_var, value=False, state='disabled', command=self.change_mode)
+        self.two_wire_radio.grid(row=1, column=0, padx=5, pady=5)
+        self.four_wire_radio = ttk.Radiobutton(self.frame_config, text='4-wire Mode', variable=self.mode_var, value=True, state='disabled', command=self.change_mode)
+        self.four_wire_radio.grid(row=1, column=1, padx=5, pady=5)        
 
         # Setup Frame
         self.frame_setup = ttk.LabelFrame(master, text="Setup Parameters", padding=(10, 10))
@@ -89,28 +97,57 @@ class KeithleyGUI:
         self.save_button = ttk.Button(master, text="Save Data", command=self.save_data)
         self.save_button.grid(row=6, column=1, padx=10, pady=5, sticky='ew')
 
+        self.update_button_states()
+
+    def update_button_states(self):
+        if self.is_connected:
+            self.connect_button.config(state='disabled')
+            self.sweep_button.config(state='normal')
+            self.save_button.config(state='normal' if self.data_collected else 'disabled')
+            self.front_panel_radio.config(state='normal')
+            self.rear_panel_radio.config(state='normal')
+            self.two_wire_radio.config(state='normal')
+            self.four_wire_radio.config(state='normal')
+        else:
+            self.connect_button.config(state='normal')
+            self.sweep_button.config(state='disabled')
+            self.save_button.config(state='disabled')
+            self.front_panel_radio.config(state='disabled')
+            self.rear_panel_radio.config(state='disabled')
+            self.two_wire_radio.config(state='disabled')
+            self.four_wire_radio.config(state='disabled')              
+
     def connect_instrument(self):
         resource_name = self.resource_name_entry.get()
         try:
             self.instrument = Keithley2400Controller(resource_name)
             self.instrument.connect()
+            self.is_connected = True
             messagebox.showinfo("Connection", "Successfully connected to the instrument.")
         except Exception as e:
             messagebox.showerror("Connection Failed", str(e))
+            self.is_connected = False
+        finally:
+            self.update_button_states()
 
     def change_panel(self):
-        # Apply panel change to the instrument if connected
-        if self.instrument:
-            panel = 'REAR' if not self.panel_var.get() else 'FRONT'
-            self.instrument.select_panel(panel)
+        if not self.is_connected:
+            messagebox.showerror("Error", "Instrument is not connected.")
+            return
+        panel = 'REAR' if not self.panel_var.get() else 'FRONT'
+        self.instrument.select_panel(panel)
 
     def change_mode(self):
-        # Apply mode change to the instrument if connected
-        if self.instrument:
-            mode = 4 if self.mode_var.get() else 2
-            self.instrument.set_measurement_mode(mode)
+        if not self.is_connected:
+            messagebox.showerror("Error", "Instrument is not connected.")
+            return
+        mode = 4 if self.mode_var.get() else 2
+        self.instrument.set_measurement_mode(mode)
 
     def perform_iv_sweep(self):
+        if not self.is_connected:
+            messagebox.showerror("Error", "Instrument is not connected.")
+            return        
         # Gather the setup parameters
         source_type = self.setup_fields['Source Type'].get()
         measure_type = self.setup_fields['Measure Type'].get()
@@ -134,8 +171,11 @@ class KeithleyGUI:
             )
             # Update the plot
             self.master.after(0, self.update_plot)
+            self.data_collected = True  # Data has been collected
         except Exception as e:
             messagebox.showerror("Error", str(e))
+        finally:
+            self.master.after(0, self.update_button_states)  # Update GUI elements from the main thread
 
     def update_plot(self):
         # Determine what is being sourced and measured
@@ -175,6 +215,9 @@ class KeithleyGUI:
         self.canvas.draw()
 
     def save_data(self):
+        if not self.data_collected:
+            messagebox.showerror("Error", "No data available to save.")
+            return        
         filepath = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
         if filepath:
             with open(filepath, 'w', newline='') as file:
