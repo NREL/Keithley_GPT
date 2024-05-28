@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 # ===== Keithley 2400 setup ===== #
-controller = Keithley2400Controller(timeout=25000)
+controller = Keithley2400Controller(timeout=50000)
 controller.connect()
 controller.select_panel('FRONT')
 controller.set_measurement_mode(2)
@@ -20,9 +20,9 @@ plt.yscale('log')
 plt.show()
 
 # ===== Save IV data ===== #
-# iv_folder = "./"
-# file_path = 'iv_curve.txt'
-# os.makedirs(iv_folder, exist_ok=True)
-# with open(os.path.join(iv_folder,file_path), 'w') as file:
-#     for s, m in zip(voltage, current):
-#         file.write(f"{s}\t{m}\n")
+iv_folder = "./"
+file_path = 'iv_curve.txt'
+os.makedirs(iv_folder, exist_ok=True)
+with open(os.path.join(iv_folder,file_path), 'w') as file:
+    for s, m in zip(voltage, current):
+        file.write(f"{s}\t{m}\n")
