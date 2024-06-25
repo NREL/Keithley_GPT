@@ -14,3 +14,8 @@ THIS SOFTWARE WAS GENERATED USING ARTIFICIAL INTELLIGENCE. IT MAY CONTAINS ERROR
 
 ### IV_Characterization
 - **Example Code**: Demonstrates how to acquire current-voltage data utilizing the Keithley2400GPT control class.
+
+### ChatGPT conversations available at: 
+- Python control class: https://chat.openai.com/share/1a9afe99-86ac-499e-94a7-7d0a1a84aa23
+- GUI: https://chat.openai.com/share/e02fff82-edea-45f3-964d-73ef2012f8ee
+- GUI (error handling): https://chat.openai.com/share/057d1f7f-61a6-4ce0-9371-8f5b5267625c
