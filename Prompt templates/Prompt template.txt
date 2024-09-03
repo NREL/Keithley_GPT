@@ -1,0 +1,9 @@
+I have filled out a JSON file with details about my instrument and the required functionalities for Python-based control code development. Please use the information in the uploaded JSON file to:
+1. Initial Setup: Based on the JSON details, recommend and provide the necessary Python libraries and a basic class structure to represent the instrument. Also check for any external file requirements in the JSON, such as configuration files. If external files are needed, ask for them before developing any code.
+2. Communication and Basic Operations: Write code to perform the basic instrument functions and establish communication with the instrument using the specified communication interface and protocol. Implement the desired operations as outlined in the JSON.
+3. Data Logging: Add functionality to log the data from the operations into the specified file format. Ensure the code handles reading from or writing to any external files mentioned in the JSON.
+4. Error Handling and Logging: Incorporate robust error handling and logging mechanisms based on the details in the JSON. Ensure that errors are recorded and managed as specified.
+5. Final Testing and Validation: Implement test and validation as outlined in the JSON file.
+
+Please provide a final single script as described in the JSON file, making sure it is complete, functional, and ready for real-world use. Do not use placeholders, since a complete code with automated testing should be the output, and make sure all desired operations are implemented.
+Are all tasks clearly defined? If so, I'll upload the JSON file.

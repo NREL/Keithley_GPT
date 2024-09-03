@@ -1,0 +1,75 @@
+{
+    "instrument": {
+        "model": "[Instrument Model]",
+        "communication_interface": "[Communication Interface]",
+        "communication_protocol": "[Communication Language/Protocol]",
+        "python_version": "[Python Version]",
+        "operating_system": "[Operating System]"
+    },
+    "initial_setup": {
+        "description": "Set up the environment with the necessary libraries, dependencies, and optional configuration files.",
+        "libraries_and_dependencies": {
+            "required": false,
+            "libraries": null,
+            "dependencies": null
+        },
+        "external_files": {
+            "required": false,
+            "description": null,
+            "file_details": null
+        }
+    },
+    "communication_and_operations": {
+        "basic_functions": "Implement basic instrument functions such as setting voltage, measuring current, and controlling output.",
+        "desired_operations": [
+            {
+                "operation_1": "Describe the first operation (e.g., setting a parameter)."
+            },
+            {
+                "operation_2": "Describe the second operation (e.g., measuring a value)."
+            },
+            {
+                "additional_operations": "Describe any other operations specific to the instrument."
+            }
+        ],
+        "error_handling": {
+            "required": true,
+            "description": "All methods should include error handling with try-except blocks. Log any errors using the logging module."
+        }
+    },
+    "data_logging": {
+        "required": true,
+        "file_format": "[File Format, e.g., CSV]",
+        "description": "Log the data from the basic operations into a file with the specified format. Make sure to log",
+        "file_details": {
+            "file_name": "[File Name]",
+            "columns": ["[Header 1]", "[Header 2]", "[Header 3]"]
+        }
+    },
+    "testing_with_simulated_data": {
+        "required": true,
+        "description": "Develop automated tests for all methods using the unittest module, including tests with simulated data.",
+        "simulation_scenarios": [
+            "Describe a simulation scenario or edge case."
+        ],
+        "automated_testing": {
+            "required": true,
+            "description": "Ensure all methods undergo automated testing with unittest, including pass/fail criteria."
+        }
+    },
+    "error_handling_and_logging": {
+        "required": true,
+        "description": "Implement robust error handling and logging across all methods, ensuring that errors are recorded into the log_file and managed.",
+        "error_logging_details": {
+            "log_file": "[Error Log File Name]",
+            "retry_attempts": 3
+        }
+    },
+    "final_testing_and_validation": {
+        "required": true,
+        "description": "All methods of the instrument class must pass the automated tests as part of the final validation.",
+        "validation_criteria": [
+            "List specific validation criteria, such as verifying correct readings or handling edge cases."
+        ]
+    }
+}

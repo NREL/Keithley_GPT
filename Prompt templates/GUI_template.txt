@@ -1,0 +1,27 @@
+I have a Python script that includes a class responsible for controlling an instrument. This class has several methods and variables that need to be mapped to a GUI. Please develop a fully functional GUI based on the following criteria:
+
+1. **Class Methods and Variables**:
+   - Each method in the class should be represented by a button or toggle in the GUI.
+   - All class methods and variables should be directly mapped to appropriate input fields (e.g., text boxes, sliders, dropdown menus) in the GUI, allowing users to modify their values.
+   - The GUI must include error-handling for all buttons and toggles to manage invalid inputs or failed operations.
+   - Methods that return values should have corresponding output display elements (e.g., labels or text areas).
+   - Boolean variables should be represented as checkboxes or toggle switches.
+   - Variables with limited options should be represented as dropdown menus.
+
+2. **GUI Layout and Design**:
+   - Please determine the most effective way to map these methods and variables to screen elements, ensuring the layout is user-friendly and logical.
+   - The GUI should feature a clean and intuitive design, with sections clearly labeled for different functions and settings.
+
+3. **Error Handling**:
+   - Implement validation for all input fields to ensure that users enter valid data.
+   - The GUI should provide clear and informative error messages when inputs are invalid or when an operation fails.
+
+4. **Additional Features**:
+   - Add tooltips to buttons and input fields to provide users with additional information about their functions.
+   - If applicable, include a real-time display of instrument status or data.
+
+5. **Final Script Requirements**:
+   - Ensure that the generated GUI script is complete and functional, with no placeholders or incomplete sections.
+   - The GUI script should directly import the instrument class from the provided Python file and use its methods to ensure that the GUI operates as intended.
+
+Once the script is uploaded, please analyze it and generate the corresponding GUI code in Python using an appropriate framework (such as Tkinter, PyQt, or another suitable library). Ensure that every aspect of the GUI is fully implemented so that the resulting script is ready to run without requiring any further modifications.
