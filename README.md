@@ -23,3 +23,21 @@ THIS SOFTWARE WAS GENERATED USING ARTIFICIAL INTELLIGENCE. IT MAY CONTAINS ERROR
 ## Prompt templates
 
 The prompt templates available in the **Prompt templates** folder are designed to guide LLMs in developing GUIs and Python code for interfacing with scientific instruments. The JSON file offers a straightforward way to define the specifications and methods required for the control code, making it easily interpretable by LLMs.
+
+## 📚 How to Cite
+
+If you use this repository in your research or find it helpful, please cite the following paper:
+
+```bibtex
+@article{febba2025_dd,
+  author    = "Fébba, Davi and Egbo, Kingsley and Callahan, William A. and Zakutayev, Andriy",
+  title     = "From text to test: AI-generated control software for materials science instruments",
+  journal   = "Digital Discovery",
+  year      = "2025",
+  volume    = "4",
+  issue     = "1",
+  pages     = "35-45",
+  publisher = "RSC",
+  doi       = "10.1039/D4DD00143E",
+  url       = "http://dx.doi.org/10.1039/D4DD00143E"
+}
